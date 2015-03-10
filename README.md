@@ -24,6 +24,8 @@ More information about `debops.nginx` can be found in the
 
 ### Role dependencies
 
+- `debops.secret`
+- `debops.pki`
 - `debops.ferm`
 - `debops.apt_preferences`
 

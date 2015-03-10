@@ -4,6 +4,9 @@ dependencies:
 
   - role: debops.secret
 
+  - role: debops.pki
+    when: nginx_pki is defined and nginx_pki
+
   - role: debops.apt_preferences
     tags: apt_preferences
     apt_preferences_dependent_list:
