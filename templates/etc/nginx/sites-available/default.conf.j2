@@ -144,13 +144,13 @@
 #   - item.listen: []
 #       Optional. List of ports, IP addresses or sockets this server
 #       configuration should listen on for HTTP connections. By default set to
-#       '[::]:80' for all servers.
+#       '80' for all servers.
 #
 #
 #   - item.listen_ssl: []
 #       Optional. List of ports, IP addresses or socnets this server
 #       configuration should listen on for HTTPS connections. By default set to
-#       '[::]:443' for all servers.
+#       '443' for all servers.
 #
 #
 #   - item.index: ''
@@ -305,8 +305,8 @@
     ---- HTTPS, ports to listen on, default server, HTTPS redirect ----
 #}
 {% set nginx_tpl_ssl            = item.ssl        | default(item.pki       | default(nginx_pki | bool)) %}
-{% set nginx_tpl_listen         = item.listen     | default(['[::]:80'])       %}
-{% set nginx_tpl_listen_ssl     = item.listen_ssl | default(['[::]:443'])      %}
+{% set nginx_tpl_listen         = item.listen     | default(['80'])       %}
+{% set nginx_tpl_listen_ssl     = item.listen_ssl | default(['443'])      %}
 {% set nginx_tpl_default_server = ''                                           %}
 {% if (nginx_register_default_server in item.name or
        not item.name and nginx_register_default_server == "default")           %}
