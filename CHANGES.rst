@@ -74,6 +74,12 @@ v0.1.4
 
 - Added ``enabled`` to entries in ``item.location_list``. [scibi]
 
+- Fix https site detection when using debops.nginx as a dependency.
+  [patrickheeney]
+
+- Remove ``item.pki`` in favor of ``item.ssl`` in the nginx site configuration.
+  [patrickheeney]
+
 v0.1.3
 ------
 
