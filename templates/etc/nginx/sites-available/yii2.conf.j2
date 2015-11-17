@@ -1,0 +1,40 @@
+{% extends "php5.conf.j2" %}
+{#
+#
+#    ---- nginx server template for Yii2 websites ----
+#
+#}
+{% set nginx_tpl_php5 = item.php5 | default(nginx_upstream_php5.name)                %}
+{% block nginx_tpl_block_location_root %}
+                try_files $uri $uri/ /index.php?$args;
+{% endblock %}
+{% block nginx_tpl_block_custom_locations %}
+{% if nginx_tpl_php5 is defined and nginx_tpl_php5 %}
+        location ~ \.php$ {
+{% if (item.php5_limit_except is undefined or (item.php5_limit_except is defined and item.php5_limit_except)) %}
+                limit_except {{ item.php5_limit_except | default('GET HEAD POST') }} { deny all; }
+{% endif %}
+{% if (item.php5_include is undefined or (item.php5_include is defined and item.php5_include)) %}
+{% if (nginx_version is defined and nginx_version | version_compare('1.6.1','<')) %}
+                include {{ item.php5_include | default('fastcgi_params') }};
+{% else %}
+{% if nginx_flavor in [ 'passenger', 'nginx.org' ] %}
+                include {{ item.php5_include | default('fastcgi_params') }};
+{% else %}
+                include {{ item.php5_include | default('fastcgi.conf') }};
+{% endif %}
+{% endif %}
+{% endif %}
+{% if item.php5_options is defined and item.php5_options %}
+                {{ item.php5_options | indent(16) }}
+{% endif %}
+                try_files $uri =404;
+                fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+                fastcgi_pass {{ nginx_tpl_php5 }};
+        }
+
+        location ~ /\.(ht|svn|git) {
+            deny all;
+        }
+{% endif %}
+{% endblock %}
