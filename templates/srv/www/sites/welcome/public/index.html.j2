@@ -4,7 +4,7 @@
 {% if nginx_tpl_domain %}
 {%   set nginx_tpl_welcome_title %}
 <a href="{{ item.welcome_url_scheme|d("https") }}://{{ nginx_tpl_domain }}/">{{ nginx_tpl_domain }}</a>
-{% endset %}
+{%   endset %}
 {% elif not nginx_tpl_domain %}
 {%   set nginx_tpl_welcome_title = '<a href="http://companyname.website/">CompanyName.website</a>' %}
 {% endif %}
