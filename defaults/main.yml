@@ -974,6 +974,26 @@ nginx__apt_preferences__dependent_list:
     state: '{{ ((nginx__deploy_state in [ "present" ]) and (nginx_flavor in [ "passenger" ])) | ternary("present", "absent") }}'
 
                                                                    # ]]]
+# .. envvar:: nginx__custom_files [[[
+#
+# Copy or install custom files needed by the Nginx, usually included files.
+# The syntax is the same as used by the ``copy`` Ansible module.
+nginx__custom_files: []
+
+                                                                   # ]]]
+# .. envvar:: nginx__group_custom_files [[[
+#
+# Copy or install custom files needed by the Nginx host group configuration.
+nginx__group_custom_files: []
+
+                                                                   # ]]]
+# .. envvar:: nginx__host_custom_files [[[
+#
+# Copy or install custom files needed by the Nginx individual host
+# configuration.
+nginx__host_custom_files: []
+
+                                                                   # ]]]
 # .. envvar:: nginx_ferm_dependent_rules [[[
 #
 # Configuration of the :command:`iptables` firewall using :program:`ferm`.

@@ -73,6 +73,27 @@
     - '{{ nginx_temp_root_path }}'
   when: (nginx__deploy_state in [ 'present' ])
 
+- name: Copy custom files to remote hosts
+  copy:
+    src: '{{ item.src | d(omit) }}'
+    content: '{{ item.content | d(omit) }}'
+    dest:  '{{ item.dest }}'
+    owner: '{{ item.owner | d(omit) }}'
+    group: '{{ item.group | d(omit) }}'
+    mode:  '{{ item.mode  | d(omit) }}'
+    directory_mode: '{{ item.directory_mode | d(omit) }}'
+    follow: '{{ item.follow | d(omit) }}'
+    force:  '{{ item.force  | d(omit) }}'
+  with_flattened:
+    - '{{ nginx__custom_files }}'
+    - '{{ nginx__group_custom_files }}'
+    - '{{ nginx__host_custom_files }}'
+  when: ((item.src is defined or item.content is defined) and
+         item.dest is defined)
+  notify: [ 'Test nginx and reload' ]
+  when: (nginx__deploy_state in [ 'present' ])
+  tags: [ 'role::nginx:custom_files' ]
+
 - name: Divert default.conf in case nginx nginx.org flavor is used
   command: dpkg-divert --quiet --local --divert /etc/nginx/conf.d/default.conf.dpkg-divert
            --rename /etc/nginx/conf.d/default.conf
