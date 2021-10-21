@@ -56,7 +56,7 @@ nginx_base_packages: [ 'python-passlib' ]
 # .. envvar:: nginx_flavor [[[
 #
 # What type of nginx server to install (see 'nginx_flavor_package_map')
-nginx_flavor: 'full'
+nginx_flavor: 'light'
 
                                                                    # ]]]
 # .. envvar:: nginx__flavor_apt_key_id [[[
@@ -95,7 +95,10 @@ nginx__flavor_packages: '{{ nginx_flavor_package_map[nginx_flavor] }}'
 # for a specific flavor.
 nginx_flavor_package_map:
 
-  # Default version from Debian
+  # Light version from debian
+  'light': [ 'nginx-light' ]
+
+  # Full version from debian
   'full': [ 'nginx-full' ]
 
   # Extras version from Debian
